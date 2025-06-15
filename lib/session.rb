@@ -3,10 +3,15 @@ module TDD
     # Read-only base path for all file operations
     attr_reader :base_path
 
-    def initialize(base_path:, model: "o4-mini")
+    def initialize(base_path:, model: "o4-mini", run_tests_cmd:)
+
+      TDD.output "Starting a new session with:\n base_path: #{base_path}\n", color: :green
+
       # Ensure base_path is provided
       # Ruby will raise ArgumentError for missing keyword argument if base_path is not given
       @base_path = base_path
+
+      @run_tests_cmd = run_tests_cmd
 
       # Initialize the LLM chat with the specified model
       @chat = RubyLLM.chat(model: model)
@@ -33,7 +38,9 @@ module TDD
       @chat.with_tools(
         TDD::ListFiles.new(base_path: base_path),
         TDD::ReadFile.new(base_path: base_path),
-        TDD::WriteFile.new(base_path: base_path)
+        TDD::WriteFile.new(base_path: base_path),
+        TDD::RunTests.new(base_path: base_path, cmd: @run_tests_cmd),
+        TDD::TakeANote.new
       )
     end
 

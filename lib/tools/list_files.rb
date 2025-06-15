@@ -17,7 +17,11 @@ module TDD
 
       raise ArgumentError, "Directory not allowed: #{directory}. Must be within base path: #{@base_path}" unless directory.start_with?(@base_path)
 
-      recursive ? list_recursive(directory) : list_non_recursive(directory)
+      listing = (recursive ? list_recursive(directory) : list_non_recursive(directory))
+
+      TDD.output listing.join("\n") + "\n", color: :green
+
+      listing
     rescue => e
       TDD.output "Error: #{e.message}", color: :red
       { error: e.message }
@@ -30,7 +34,7 @@ module TDD
         # next if File.basename(file_path).start_with?('.') # Skip hidden files
 
         {
-          name: File.basename(file_path),
+          name: file_path,
           type: File.file?(file_path) ? 'file' : 'directory',
         }
       end.compact

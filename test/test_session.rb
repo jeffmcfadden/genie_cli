@@ -3,12 +3,12 @@ require_relative "test_helper"
 class SessionTest < TLDR
   def test_initialize_sets_base_path
     base = "/path/to/project"
-    session = TDD::Session.new(base_path: base)
+    session = TDD::Session.new(base_path: base, run_tests_cmd: "ls")
     assert_equal base, session.base_path
   end
 
   def test_base_path_is_read_only
-    session = TDD::Session.new(base_path: "/foo")
+    session = TDD::Session.new(base_path: "/foo", run_tests_cmd: "ls")
     assert_raises(NoMethodError) do
       session.base_path = "/bar"
     end
