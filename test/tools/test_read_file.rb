@@ -3,7 +3,7 @@ require 'debug'
 
 class TestReadFile < TLDR
   def setup
-    @base_path = File.expand_path("../../", __dir__)
+    @base_path = File.expand_path("./")
     @file_path = File.expand_path "./test/data/sample_files/read_file_test.txt"
   end
 

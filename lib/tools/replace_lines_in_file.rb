@@ -14,6 +14,9 @@ module Genie
     end
 
     def execute(filepath:, start_line:, end_line:, content:)
+      start_line = start_line.to_i
+      end_line = end_line.to_i
+
       # Expand to absolute path
       filepath = File.expand_path(filepath)
       Genie.output "Replacing lines in file: #{filepath}", color: :blue

@@ -1,8 +1,20 @@
+require 'optparse'
+
 module Genie
-  # CLI class handles command-line invocation and session lifecycle
+
   class Cli
+    # CLI class handles command-line invocation and session lifecycle
+    attr_reader :options, :args
+
     def initialize(argv)
-      @argv = argv
+      @options = {}
+      @args = Array(argv)
+
+      OptionParser.new do |parser|
+        parser.banner = "Usage: genie [options] [question]"
+        parser.on("--version")
+        parser.on("-h", "--help")
+      end.parse!(@args, into: @options)
     end
 
     def run
