@@ -1,6 +1,8 @@
 require_relative "./tdd"
 
-session = TDD::Session.new
+# Base path is one level up from this file:
+
+session = TDD::Session.new(base_path: File.expand_path("..", __dir__))
 
 session.ask "Examine the codebase at '/Users/jeffmcfadden/code/tdd_cli' to understand what it does, them summarize."
 
