@@ -50,4 +50,12 @@ class SessionConfigTest < TLDR
       assert_raises(ArgumentError) { TDD::SessionConfig.new(base_path: dir) }
     end
   end
+
+  def test_default_returns_config_with_defaults
+    expected_base = Dir.pwd
+    expected_run_tests_cmd = "rake test"
+    config = TDD::SessionConfig.default
+    assert_equal expected_base, config.base_path
+    assert_equal expected_run_tests_cmd, config.run_tests_cmd
+  end
 end

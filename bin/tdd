@@ -2,8 +2,13 @@
 
 require_relative "../lib/tdd"
 
-session = TDD::Session.new(base_path: Dir.pwd,
-                           run_tests_cmd: "rake test")
+if File.exist?(File.join(Dir.pwd, 'tddcli.yml'))
+  config = TDD::SessionConfig.from_file(File.join(Dir.pwd, 'tddcli.yml'))
+else
+  config = TDD::SessionConfig.new(base_path: Dir.pwd, run_tests_cmd: "rake test")
+end
+
+session = TDD::Session.new(config: config)
 
 # Trap CTRL+C to exit
 Signal.trap("INT") do

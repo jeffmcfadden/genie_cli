@@ -13,6 +13,11 @@ module TDD
       @run_tests_cmd = run_tests_cmd
     end
 
+    # Returns a default SessionConfig with base_path=Dir.pwd and run_tests_cmd="rake test"
+    def self.default
+      new(base_path: Dir.pwd, run_tests_cmd: "rake test")
+    end
+
     # Loads configuration from tddcli.yml in base_path
     # Raises ArgumentError if file missing or run_tests_cmd missing/empty
     def self.from_file(filepath)
