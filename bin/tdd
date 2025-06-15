@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/tdd"
+
+session = TDD::Session.new(base_path: Dir.pwd,
+                           run_tests_cmd: "rake test")
+
+# Trap CTRL+C to exit
+Signal.trap("INT") do
+  session.complete
+end
+
+session.begin(ARGV[0])

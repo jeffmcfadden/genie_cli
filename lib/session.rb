@@ -3,6 +3,8 @@ module TDD
     # Read-only base path for all file operations
     attr_reader :base_path
 
+    QUIT_COMMANDS = ["q", "quit", "done", "exit"]
+
     def initialize(base_path:, model: "o4-mini", run_tests_cmd:)
 
       TDD.output "Starting a new session with:\n base_path: #{base_path}\n", color: :green
@@ -44,13 +46,39 @@ module TDD
       )
     end
 
+    def begin(q)
+      q = q.to_s
+
+      loop do
+        complete if QUIT_COMMANDS.include? q.downcase
+        ask q unless q.strip == ""
+
+        q = prompt
+      end
+    end
+
     # Send a question to the LLM and output both prompt and response
     def ask(question)
       TDD.output "#{question}\n", color: :white
       response = @chat.ask(question)
-      TDD.output "\n#{response.content}", color: :blue
+      TDD.output "\n#{response.content}", color: :white
 
       response
     end
+
+    def prompt
+      print "\n > "
+      STDIN.gets.chomp
+    end
+
+    def complete
+      TDD.output "\nExiting...", color: :white
+
+      total_conversation_tokens = @chat.messages.sum { |msg| (msg.input_tokens || 0) + (msg.output_tokens || 0) }
+      TDD.output "Total Conversation Tokens: #{total_conversation_tokens}", color: :white
+
+      exit
+    end
+
   end
 end

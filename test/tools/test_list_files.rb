@@ -18,4 +18,13 @@ class TestListFiles < TLDR
     assert_equal expected, actual
   end
 
+  def test_list_files_with_filter
+    base_path = File.expand_path("../../", __dir__)
+    t = TDD::ListFiles.new(base_path: base_path)
+    actual = t.execute(directory: "./test/data/sample_files", filter: "one")
+
+    expected = [{ name: "one.txt", type: "file" }]
+
+    assert_equal expected, actual
+  end
 end

@@ -4,22 +4,28 @@ module TDD
     description "Lists the files in the given directory"
     param :directory, desc: "Directory path to list files from (e.g., '/home/user/documents')"
     param :recursive, desc: "Whether to list files recursively (default: false)"
+    param :filter, desc: "Filter string to include only paths that include this substring (Optional)"
 
     def initialize(base_path:)
       @base_path = base_path
       @base_path.freeze
     end
 
-    def execute(directory:, recursive: false)
+    def execute(directory:, recursive: false, filter: nil)
       directory = File.expand_path(directory, @base_path)
 
       TDD.output "Listing files in directory: #{directory} (recursive: #{recursive})", color: :blue
 
       raise ArgumentError, "Directory not allowed: #{directory}. Must be within base path: #{@base_path}" unless directory.start_with?(@base_path)
 
-      listing = (recursive ? list_recursive(directory) : list_non_recursive(directory))
+      listing = recursive ? list_recursive(directory) : list_non_recursive(directory)
 
-      TDD.output listing.join("\n") + "\n", color: :green
+      # Apply filter if provided
+      if filter && !filter.empty?
+        listing = listing.select { |entry| entry[:name].include?(filter) }
+      end
+
+      TDD.output listing.map { |e| e[:name] }.join("\n") + "\n", color: :green
 
       listing
     rescue => e
