@@ -24,6 +24,8 @@ RubyLLM.configure do |config|
   config.openai_api_key = ENV.fetch('OPENAI_API_KEY', nil)
   # Add other keys like config.anthropic_api_key if needed
 
+  config.gemini_api_key = ENV.fetch('GEMINI_API_KEY', nil)  # Set your Gemini API key
+
   config.log_file = 'ruby_llm.log'  # Log file path
   config.log_level = :debug  # Log level (:debug, :info, :warn)
 end

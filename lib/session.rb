@@ -11,7 +11,7 @@ module Genie
     # Initializes the session with a pre-loaded configuration
     # config: instance of Genie::SessionConfig
     # model: LLM model to use (default: "o4-mini")
-    def initialize(config:, model: "o4-mini")
+    def initialize(config:, model: "gemini-2.5-flash-preview-05-20")
       Genie.output "Starting a new session with:\n base_path: #{config.base_path}\n", color: :green
 
       @config = config

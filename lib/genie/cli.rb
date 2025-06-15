@@ -33,7 +33,7 @@ module Genie
       Signal.trap("INT") { session.complete }
 
       # Begin the session with the first CLI argument (or nil)
-      session.begin(@argv[0])
+      session.begin(@args&.last)
     end
   end
 end
