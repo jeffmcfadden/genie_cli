@@ -2,15 +2,12 @@ require "fileutils"
 
 module Genie
   class InsertIntoFile < RubyLLM::Tool
+    include SandboxedFileTool
+
     description "Insert a string into an existing file at a specified line number."
     param :filepath, desc: "The path to the file to insert into (e.g., '/home/user/documents/file.txt'). File must already exist."
     param :content, desc: "The content to insert into the file"
     param :line_number, desc: "The 1-based line number at which to insert the content"
-
-    def initialize(base_path:)
-      @base_path = base_path
-      @base_path.freeze
-    end
 
     def execute(filepath:, content:, line_number:)
       line_number = line_number.to_i
@@ -20,10 +17,7 @@ module Genie
 
       Genie.output "Inserting into file: #{filepath}", color: :blue
 
-      # Ensure the file is within the allowed base path
-      unless filepath.start_with?(@base_path)
-        raise ArgumentError, "File not allowed: #{filepath}. Must be within base path: #{@base_path}"
-      end
+      enforce_sandbox!(filepath)
 
       # Check file exists
       unless File.exist?(filepath)

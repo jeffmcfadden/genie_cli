@@ -1,15 +1,12 @@
 module Genie
 
   class ListFiles < RubyLLM::Tool
+    include SandboxedFileTool
+
     description "Lists the files in the given directory"
     param :directory, desc: "Directory path to list files from (e.g., '/home/user/documents')"
     param :recursive, desc: "Whether to list files recursively (default: false)"
     param :filter, desc: "Filter string to include only paths that include this substring (Optional)"
-
-    def initialize(base_path:)
-      @base_path = base_path
-      @base_path.freeze
-    end
 
     def execute(directory:, recursive: false, filter: nil)
       directory = File.expand_path(directory, @base_path)

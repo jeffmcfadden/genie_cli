@@ -3,14 +3,11 @@ require "ruby_llm"
 
 module Genie
   class RenameFile < RubyLLM::Tool
+    include SandboxedFileTool
+
     description "Rename a file within the base path to a new location within the base path."
     param :filepath, desc: "The path to the source file to rename."
     param :new_path, desc: "The new path for the file."
-
-    def initialize(base_path:)
-      @base_path = base_path
-      @base_path.freeze
-    end
 
     def execute(filepath:, new_path:)
       # Expand to absolute paths
@@ -19,13 +16,8 @@ module Genie
 
       Genie.output "Renaming file from: #{src} to #{dst}", color: :blue
 
-      # Ensure both paths are within base path
-      unless src.start_with?(@base_path)
-        raise ArgumentError, "File not allowed: #{src}. Must be within base path: #{@base_path}"
-      end
-      unless dst.start_with?(@base_path)
-        raise ArgumentError, "Destination not allowed: #{dst}. Must be within base path: #{@base_path}"
-      end
+      enforce_sandbox!(src)
+      enforce_sandbox!(dst)
 
       # Check source exists
       unless File.exist?(src)

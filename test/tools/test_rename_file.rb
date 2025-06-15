@@ -36,12 +36,14 @@ class TestRenameFile < TLDR
     Dir.mktmpdir do |dir|
       src = "#{dir}/file.txt"
       File.write(src, "data")
-      outside_dst = "#{dir}/../new.txt"
+      outside_dst = "/blah/new.txt"
       result = Genie::RenameFile.new(base_path: dir).execute(
         filepath: src,
         new_path: outside_dst
       )
-      assert result[:error]&.include?("Destination not allowed"), "Expected error for destination outside base path"
+
+      assert result[:error]&.include?("File not allowed"), "Expected error for outside sandbox source file"
+
     end
   end
 

@@ -2,23 +2,18 @@ require "fileutils"
 
 module Genie
   class AppendToFile < RubyLLM::Tool
+    include SandboxedFileTool
+
     description "Append a string to an existing file."
     param :filepath, desc: "The path to the file to append to (e.g., '/home/user/documents/file.txt'). File must already exist."
     param :content, desc: "The content to append to the file"
-
-    def initialize(base_path:)
-      @base_path = base_path
-      @base_path.freeze
-    end
 
     def execute(filepath:, content:)
       filepath = File.expand_path(filepath)
 
       Genie.output "Appending to file: #{filepath}", color: :blue
 
-      unless filepath.start_with?(@base_path)
-        raise ArgumentError, "File not allowed: #{filepath}. Must be within base path: #{@base_path}"
-      end
+      enforce_sandbox!(filepath)
 
       indented = content.each_line.map { |line| "  #{line}" }.join
       Genie.output indented, color: :green

@@ -2,16 +2,13 @@ require "ruby_llm"
 
 module Genie
   class ReplaceLinesInFile < RubyLLM::Tool
+    include SandboxedFileTool
+
     description "Replace lines in a file between start and end indices (inclusive) with new content."
     param :filepath, desc: "The path to the file to modify (must exist within base path)."
     param :start_line, desc: "Zero-based starting line index to replace."
     param :end_line, desc: "Zero-based ending line index to replace."
     param :content, desc: "The new content to insert in place of the removed lines."
-
-    def initialize(base_path:)
-      @base_path = base_path
-      @base_path.freeze
-    end
 
     def execute(filepath:, start_line:, end_line:, content:)
       start_line = start_line.to_i
@@ -21,10 +18,7 @@ module Genie
       filepath = File.expand_path(filepath)
       Genie.output "Replacing lines in file: #{filepath}", color: :blue
 
-      # Ensure within base path
-      unless filepath.start_with?(@base_path)
-        raise ArgumentError, "File not allowed: #{filepath}. Must be within base path: #{@base_path}"
-      end
+      enforce_sandbox!(filepath)
 
       # Check file exists
       unless File.exist?(filepath)

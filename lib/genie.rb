@@ -3,6 +3,7 @@ require "dotenv/load"
 
 $LOAD_PATH.unshift (File.expand_path('../lib', __dir__))
 
+require "genie/sandboxed_file_tool"
 require "genie/version"
 require "session_config"
 require "session"
