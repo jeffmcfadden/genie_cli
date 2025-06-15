@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative "../lib/tdd"
+require_relative "../lib/genie"
 
 if File.exist?(File.join(Dir.pwd, 'genie.yml'))
   config = Genie::SessionConfig.from_file(File.join(Dir.pwd, 'genie.yml'), base_path: Dir.pwd)
