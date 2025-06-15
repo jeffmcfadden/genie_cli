@@ -1,6 +1,10 @@
 # Genie CLI
 
-Genie CLI is a command-line tool that brings Test Driven Development (Genie) principles to life by integrating with a large language model (LLM) through the `ruby_llm` library. It provides an interactive session where you can ask the AI assistant to write tests, implement code, and manage your codebase—all while enforcing a strict Genie workflow.
+Genie CLI is a command-line tool that brings Test Driven Development (TDD) 
+principles to life by integrating with a large language model (LLM) through 
+the `ruby_llm` library. It provides an interactive session where you can ask 
+the AI assistant to write tests, implement code, and manage your codebase—all 
+while enforcing a strict TDD workflow.
 
 ## Features
 
@@ -21,8 +25,8 @@ Genie CLI is a command-line tool that brings Test Driven Development (Genie) pri
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/tdd_cli.git
-   cd tdd_cli
+   git clone https://github.com/jeffmcfadden/genie_cli.git
+   cd genie_cli
    ```
 
 2. Install dependencies using Bundler:
@@ -37,15 +41,15 @@ Genie CLI is a command-line tool that brings Test Driven Development (Genie) pri
 
 4. Make the CLI executable:
    ```bash
-   chmod +x bin/tdd
+   chmod +x bin/genie
    ```
 
 ## Usage
 
-Start a Genie session by running the `tdd` command from the root of your project:
+Start a Genie session by running the `genie` command from the root of your project:
 
 ```bash
-./bin/tdd ["initial prompt or command"]
+./bin/genie ["initial prompt or command"]
 ```
 
 - If you provide an initial prompt, the assistant will immediately respond. Otherwise, you'll enter an interactive prompt where you can type your questions or commands.
@@ -54,9 +58,9 @@ Start a Genie session by running the `tdd` command from the root of your project
 Example session:
 
 ```bash
-$ ./bin/tdd
+$ ./bin/genie
 Starting a new session with:
- base_path: /Users/you/projects/tdd_cli
+ base_path: /Users/you/projects/genie_cli
 
  > "Create a failing test for a Calculator#add method"
 
@@ -77,19 +81,14 @@ Total Conversation Tokens: 1234
 
 ## Logging
 
-The output of `tdd` to the terminal includes "essential" output, but not 
+The output of `genie` to the terminal includes "essential" output, but not 
 _all_ output. To aid in debugging, the full RubyLLM debug log is saved to 
 `ruby_llm.log`. This can be useful for auditing what's happened during a 
 session in great detail.
 
 ## Configuration
 
-Configuration is handled via environment variables and the `ruby_llm` initializer in `lib/tdd.rb`:
-
-- `OPENAI_API_KEY`: Your OpenAI API key.
-- `ANOTHER_PROVIDER_KEY`: If using another LLM provider, set it here.
-- `RUBY_LLM_LOG_FILE`: Path to the `ruby_llm` log file (default: `ruby_llm.log`).
-- `RUBY_LLM_LOG_LEVEL`: Logging level (`debug`, `info`, `warn`, etc.).
+Configuration is available via a `genie.yml` file in the project root.
 
 ## Testing
 
