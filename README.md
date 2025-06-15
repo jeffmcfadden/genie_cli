@@ -75,6 +75,13 @@ Exiting...
 Total Conversation Tokens: 1234
 ```
 
+## Logging
+
+The output of `tdd` to the terminal includes "essential" output, but not 
+_all_ output. To aid in debugging, the full RubyLLM debug log is saved to 
+`ruby_llm.log`. This can be useful for auditing what's happened during a 
+session in great detail.
+
 ## Configuration
 
 Configuration is handled via environment variables and the `ruby_llm` initializer in `lib/tdd.rb`:
