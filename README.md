@@ -1,6 +1,6 @@
-# TDD CLI
+# Genie CLI
 
-TDD CLI is a command-line tool that brings Test Driven Development (TDD) principles to life by integrating with a large language model (LLM) through the `ruby_llm` library. It provides an interactive session where you can ask the AI assistant to write tests, implement code, and manage your codebase—all while enforcing a strict TDD workflow.
+Genie CLI is a command-line tool that brings Test Driven Development (Genie) principles to life by integrating with a large language model (LLM) through the `ruby_llm` library. It provides an interactive session where you can ask the AI assistant to write tests, implement code, and manage your codebase—all while enforcing a strict Genie workflow.
 
 ## Features
 
@@ -14,7 +14,7 @@ TDD CLI is a command-line tool that brings Test Driven Development (TDD) princip
   - `RunTests`: Run your test suite and capture results.
   - `TakeANote`: Write notes without affecting your source files.
   - `AskForHelp`: Request guidance or explanations from the AI.
-- Enforces TDD workflow: tests first, implementation second.
+- Enforces Genie workflow: tests first, implementation second.
 - Restricts file operations to your project directory for safety.
 
 ## Installation
@@ -42,7 +42,7 @@ TDD CLI is a command-line tool that brings Test Driven Development (TDD) princip
 
 ## Usage
 
-Start a TDD session by running the `tdd` command from the root of your project:
+Start a Genie session by running the `tdd` command from the root of your project:
 
 ```bash
 ./bin/tdd ["initial prompt or command"]
@@ -101,7 +101,7 @@ bundle exec rake test
 
 ## Contributing
 
-Contributions are welcome! Please fork the repository and open pull requests for new features or bug fixes. Make sure to follow the TDD workflow and include tests for new functionality.
+Contributions are welcome! Please fork the repository and open pull requests for new features or bug fixes. Make sure to follow the Genie workflow and include tests for new functionality.
 
 ## License
 

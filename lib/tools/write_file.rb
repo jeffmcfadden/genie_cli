@@ -1,6 +1,6 @@
 require "fileutils"
 
-module TDD
+module Genie
   class WriteFile < RubyLLM::Tool
     description "Write a string to a file"
     param :filepath, desc: "The path to the file to read (e.g., '/home/user/documents/file.txt')"
@@ -14,13 +14,13 @@ module TDD
     def execute(filepath:, content:)
       filepath = File.expand_path(filepath)
 
-      TDD.output "Writing file: #{filepath}", color: :blue
+      Genie.output "Writing file: #{filepath}", color: :blue
 
       raise ArgumentError, "File not allowed: #{filepath}. Must be within base path: #{@base_path}" unless filepath.start_with?(@base_path)
 
       indented_content = content.each_line.map { |line| "  #{line}" }.join
 
-      TDD.output "#{indented_content}", color: :green
+      Genie.output "#{indented_content}", color: :green
 
       # Ensure the directory exists
       FileUtils.mkdir_p(File.dirname(filepath))
@@ -33,7 +33,7 @@ module TDD
         success: true,
       }
     rescue => e
-      TDD.output "Error: #{e.message}", color: :red
+      Genie.output "Error: #{e.message}", color: :red
 
       { error: e.message }
     end

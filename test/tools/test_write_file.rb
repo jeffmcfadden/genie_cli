@@ -6,7 +6,7 @@ class TestWriteFile < TLDR
   def test_write_file
     Dir.mktmpdir {|dir|
 
-      TDD::WriteFile.new(base_path: "#{dir}").execute(filepath: "#{dir}/test_file.txt", content: "Hello, World!")
+      Genie::WriteFile.new(base_path: "#{dir}").execute(filepath: "#{dir}/test_file.txt", content: "Hello, World!")
 
       actual = File.read("#{dir}/test_file.txt")
       expected = "Hello, World!"

@@ -1,5 +1,5 @@
 $LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
 
-require "tdd"
+require "genie"
 
-TDD.quiet! # Don't output the extra information
+Genie.quiet! # Don't output the extra information

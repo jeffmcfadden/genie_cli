@@ -1,6 +1,6 @@
 require 'yaml'
 
-module TDD
+module Genie
   # Handles loading of session configuration such as run_tests_cmd
   class SessionConfig
     # Read-only attributes
@@ -30,7 +30,7 @@ module TDD
           run_tests_cmd: defaults[:run_tests_cmd])
     end
 
-    # Loads configuration from tddcli.yml in base_path
+    # Loads configuration from genie.yml in base_path
     # Raises ArgumentError if file missing or run_tests_cmd missing/empty
     def self.from_file(filepath, base_path: nil)
       config_file = File.expand_path(filepath)

@@ -1,6 +1,6 @@
 require "fileutils"
 
-module TDD
+module Genie
   class InsertIntoFile < RubyLLM::Tool
     description "Insert a string into an existing file at a specified line number."
     param :filepath, desc: "The path to the file to insert into (e.g., '/home/user/documents/file.txt'). File must already exist."
@@ -18,7 +18,7 @@ module TDD
       # Expand the filepath to an absolute path
       filepath = File.expand_path(filepath)
 
-      TDD.output "Inserting into file: #{filepath}", color: :blue
+      Genie.output "Inserting into file: #{filepath}", color: :blue
 
       # Ensure the file is within the allowed base path
       unless filepath.start_with?(@base_path)
@@ -44,7 +44,7 @@ module TDD
 
       # Show the content to be inserted
       indented = content.each_line.map { |line| "  #{line}" }.join
-      TDD.output indented, color: :green
+      Genie.output indented, color: :green
 
       # Perform insertion
       index = line_number - 1
@@ -57,7 +57,7 @@ module TDD
 
       { success: true }
     rescue => e
-      TDD.output "Error: #{e.message}", color: :red
+      Genie.output "Error: #{e.message}", color: :red
       { error: e.message }
     end
   end

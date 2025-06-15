@@ -1,4 +1,4 @@
-module TDD
+module Genie
   class RunTests < RubyLLM::Tool
     description "Runs the test suite and returns the results"
 
@@ -12,7 +12,7 @@ module TDD
 
     # Stubbed execute method; to be implemented in a future iteration
     def execute
-      TDD.output "Running tests...", color: :blue
+      Genie.output "Running tests...", color: :blue
 
       # Run CMD within the base path
       Dir.chdir(@base_path) do
@@ -20,14 +20,14 @@ module TDD
           output = `#{@cmd}`
 
           if $?.success?
-            TDD.output "Tests passed successfully!", color: :green
+            Genie.output "Tests passed successfully!", color: :green
             { result: "Tests passed", output: output }
           else
-            TDD.output "Tests failed!", color: :red
+            Genie.output "Tests failed!", color: :red
             { result: "Tests failed", output: output }
           end
         rescue => e
-          TDD.output "Error running tests: #{e.message}", color: :red
+          Genie.output "Error running tests: #{e.message}", color: :red
           { error: e.message }
         end
       end

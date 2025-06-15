@@ -6,7 +6,7 @@ class TestReplaceLinesInFile < TLDR
       file = "#{dir}/test.txt"
       File.write(file, "A\nB\nC\nD\nE\n")
 
-      result = TDD::ReplaceLinesInFile.new(base_path: dir).execute(
+      result = Genie::ReplaceLinesInFile.new(base_path: dir).execute(
         filepath: file,
         start_line: 1,
         end_line: 3,
@@ -25,7 +25,7 @@ class TestReplaceLinesInFile < TLDR
       file = "#{dir}/test.txt"
       File.write(file, "Line1\nLine2\nLine3\n")
 
-      result = TDD::ReplaceLinesInFile.new(base_path: dir).execute(
+      result = Genie::ReplaceLinesInFile.new(base_path: dir).execute(
         filepath: file,
         start_line: 0,
         end_line: 0,
@@ -44,7 +44,7 @@ class TestReplaceLinesInFile < TLDR
       file = "#{dir}/test.txt"
       File.write(file, "1\n2\n3\n4\n")
 
-      result = TDD::ReplaceLinesInFile.new(base_path: dir).execute(
+      result = Genie::ReplaceLinesInFile.new(base_path: dir).execute(
         filepath: file,
         start_line: 3,
         end_line: 3,
@@ -63,7 +63,7 @@ class TestReplaceLinesInFile < TLDR
       file = "#{dir}/test.txt"
       File.write(file, "A\nB\nC\nD\n")
 
-      result = TDD::ReplaceLinesInFile.new(base_path: dir).execute(
+      result = Genie::ReplaceLinesInFile.new(base_path: dir).execute(
         filepath: file,
         start_line: 2,
         end_line: 3,
@@ -83,7 +83,7 @@ class TestReplaceLinesInFile < TLDR
       File.write(file, "Only one line\n")
 
       # negative start
-      result = TDD::ReplaceLinesInFile.new(base_path: dir).execute(
+      result = Genie::ReplaceLinesInFile.new(base_path: dir).execute(
         filepath: file,
         start_line: -1,
         end_line: 0,
@@ -92,7 +92,7 @@ class TestReplaceLinesInFile < TLDR
       assert result[:error]&.include?("Invalid line numbers"), "Expected error for negative start_line"
 
       # start > end
-      result2 = TDD::ReplaceLinesInFile.new(base_path: dir).execute(
+      result2 = Genie::ReplaceLinesInFile.new(base_path: dir).execute(
         filepath: file,
         start_line: 1,
         end_line: 0,
@@ -101,7 +101,7 @@ class TestReplaceLinesInFile < TLDR
       assert result2[:error]&.include?("Invalid line numbers"), "Expected error for start_line > end_line"
 
       # end beyond last index
-      result3 = TDD::ReplaceLinesInFile.new(base_path: dir).execute(
+      result3 = Genie::ReplaceLinesInFile.new(base_path: dir).execute(
         filepath: file,
         start_line: 0,
         end_line: 5,
@@ -115,7 +115,7 @@ class TestReplaceLinesInFile < TLDR
     Dir.mktmpdir do |dir|
       outside = "#{dir}/../outside.txt"
 
-      result = TDD::ReplaceLinesInFile.new(base_path: dir).execute(
+      result = Genie::ReplaceLinesInFile.new(base_path: dir).execute(
         filepath: outside,
         start_line: 0,
         end_line: 1,
@@ -129,7 +129,7 @@ class TestReplaceLinesInFile < TLDR
     Dir.mktmpdir do |dir|
       file = "#{dir}/no_file.txt"
 
-      result = TDD::ReplaceLinesInFile.new(base_path: dir).execute(
+      result = Genie::ReplaceLinesInFile.new(base_path: dir).execute(
         filepath: file,
         start_line: 0,
         end_line: 0,

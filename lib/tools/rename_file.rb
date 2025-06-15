@@ -1,7 +1,7 @@
 require "fileutils"
 require "ruby_llm"
 
-module TDD
+module Genie
   class RenameFile < RubyLLM::Tool
     description "Rename a file within the base path to a new location within the base path."
     param :filepath, desc: "The path to the source file to rename."
@@ -17,7 +17,7 @@ module TDD
       src = File.expand_path(filepath)
       dst = File.expand_path(new_path)
 
-      TDD.output "Renaming file from: #{src} to #{dst}", color: :blue
+      Genie.output "Renaming file from: #{src} to #{dst}", color: :blue
 
       # Ensure both paths are within base path
       unless src.start_with?(@base_path)
@@ -46,7 +46,7 @@ module TDD
 
       { success: true }
     rescue => e
-      TDD.output "Error: #{e.message}", color: :red
+      Genie.output "Error: #{e.message}", color: :red
       { error: e.message }
     end
   end

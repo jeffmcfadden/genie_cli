@@ -7,7 +7,7 @@ class TestInsertIntoFile < TLDR
       # Create initial content
       File.write(file, "A\nB\nC\n")
 
-      result = TDD::InsertIntoFile.new(base_path: dir).execute(
+      result = Genie::InsertIntoFile.new(base_path: dir).execute(
         filepath: file,
         content: "X\n",
         line_number: 2
@@ -25,7 +25,7 @@ class TestInsertIntoFile < TLDR
       file = "#{dir}/test.txt"
       File.write(file, "Line1\nLine2\n")
 
-      result = TDD::InsertIntoFile.new(base_path: dir).execute(
+      result = Genie::InsertIntoFile.new(base_path: dir).execute(
         filepath: file,
         content: "New\n",
         line_number: 1
@@ -43,7 +43,7 @@ class TestInsertIntoFile < TLDR
       File.write(file, "1\n2\n3\n")
 
       # Append by specifying line_number one past last line
-      result = TDD::InsertIntoFile.new(base_path: dir).execute(
+      result = Genie::InsertIntoFile.new(base_path: dir).execute(
         filepath: file,
         content: "4\n",
         line_number: 4
@@ -60,7 +60,7 @@ class TestInsertIntoFile < TLDR
       file = "#{dir}/test.txt"
       File.write(file, "Only one line\n")
 
-      result = TDD::InsertIntoFile.new(base_path: dir).execute(
+      result = Genie::InsertIntoFile.new(base_path: dir).execute(
         filepath: file,
         content: "Oops\n",
         line_number: 0
@@ -73,7 +73,7 @@ class TestInsertIntoFile < TLDR
     Dir.mktmpdir do |dir|
       outside = "#{dir}/../outside.txt"
 
-      result = TDD::InsertIntoFile.new(base_path: dir).execute(
+      result = Genie::InsertIntoFile.new(base_path: dir).execute(
         filepath: outside,
         content: "data\n",
         line_number: 1
@@ -86,7 +86,7 @@ class TestInsertIntoFile < TLDR
     Dir.mktmpdir do |dir|
       file = "#{dir}/no_file.txt"
 
-      result = TDD::InsertIntoFile.new(base_path: dir).execute(
+      result = Genie::InsertIntoFile.new(base_path: dir).execute(
         filepath: file,
         content: "data\n",
         line_number: 1

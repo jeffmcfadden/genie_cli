@@ -9,7 +9,7 @@ class TestAppendToFile < TLDR
       # Create initial content
       File.write(file, "Hello\n")
 
-      result = TDD::AppendToFile.new(base_path: dir).execute(filepath: file, content: "World\n")
+      result = Genie::AppendToFile.new(base_path: dir).execute(filepath: file, content: "World\n")
       assert_equal true, result[:success]
 
       actual = File.read(file)
@@ -22,7 +22,7 @@ class TestAppendToFile < TLDR
     Dir.mktmpdir do |dir|
       outside = "#{dir}/../outside.txt"
 
-      result = TDD::AppendToFile.new(base_path: dir).execute(filepath: outside, content: "data")
+      result = Genie::AppendToFile.new(base_path: dir).execute(filepath: outside, content: "data")
       assert result[:error]&.include?("File not allowed"), "Expected error for file outside base path"
     end
   end

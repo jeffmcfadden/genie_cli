@@ -1,6 +1,6 @@
 require "ruby_llm"
 
-module TDD
+module Genie
   class ReplaceLinesInFile < RubyLLM::Tool
     description "Replace lines in a file between start and end indices (inclusive) with new content."
     param :filepath, desc: "The path to the file to modify (must exist within base path)."
@@ -16,7 +16,7 @@ module TDD
     def execute(filepath:, start_line:, end_line:, content:)
       # Expand to absolute path
       filepath = File.expand_path(filepath)
-      TDD.output "Replacing lines in file: #{filepath}", color: :blue
+      Genie.output "Replacing lines in file: #{filepath}", color: :blue
 
       # Ensure within base path
       unless filepath.start_with?(@base_path)
@@ -54,7 +54,7 @@ module TDD
 
       { success: true }
     rescue => e
-      TDD.output "Error: #{e.message}", color: :red
+      Genie.output "Error: #{e.message}", color: :red
       { error: e.message }
     end
   end

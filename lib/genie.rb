@@ -25,7 +25,7 @@ RubyLLM.configure do |config|
   config.log_level = :debug  # Log level (:debug, :info, :warn)
 end
 
-module TDD
+module Genie
   def self.output(s, color: :white)
     return if quiet?
 

@@ -1,4 +1,4 @@
-module TDD
+module Genie
   class ReadFile < RubyLLM::Tool
     description "Reads the contents of a file and returns its content"
     param :filepath, desc: "The path to the file to read (e.g., '/home/user/documents/file.txt')"
@@ -12,7 +12,7 @@ module TDD
     def execute(filepath:, include_line_numbers: false)
       filepath = File.expand_path(filepath)
 
-      TDD.output "Reading file: #{filepath}", color: :blue
+      Genie.output "Reading file: #{filepath}", color: :blue
 
       unless filepath.start_with?(@base_path)
         raise ArgumentError, "File not allowed: #{filepath}. Must be within base path: #{@base_path}"
@@ -31,7 +31,7 @@ module TDD
 
       { contents: contents }
     rescue => e
-      TDD.output "Error: #{e.message}", color: :red
+      Genie.output "Error: #{e.message}", color: :red
 
       { error: e.message }
     end

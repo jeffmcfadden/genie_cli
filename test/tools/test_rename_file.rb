@@ -8,7 +8,7 @@ class TestRenameFile < TLDR
       content = "Hello"
       File.write(src, content)
 
-      result = TDD::RenameFile.new(base_path: dir).execute(
+      result = Genie::RenameFile.new(base_path: dir).execute(
         filepath: src,
         new_path: dst
       )
@@ -24,7 +24,7 @@ class TestRenameFile < TLDR
   def test_error_for_source_outside_base_path
     Dir.mktmpdir do |dir|
       outside = "#{dir}/../outside.txt"
-      result = TDD::RenameFile.new(base_path: dir).execute(
+      result = Genie::RenameFile.new(base_path: dir).execute(
         filepath: outside,
         new_path: "#{dir}/new.txt"
       )
@@ -37,7 +37,7 @@ class TestRenameFile < TLDR
       src = "#{dir}/file.txt"
       File.write(src, "data")
       outside_dst = "#{dir}/../new.txt"
-      result = TDD::RenameFile.new(base_path: dir).execute(
+      result = Genie::RenameFile.new(base_path: dir).execute(
         filepath: src,
         new_path: outside_dst
       )
@@ -49,7 +49,7 @@ class TestRenameFile < TLDR
     Dir.mktmpdir do |dir|
       src = "#{dir}/no_file.txt"
       dst = "#{dir}/new.txt"
-      result = TDD::RenameFile.new(base_path: dir).execute(
+      result = Genie::RenameFile.new(base_path: dir).execute(
         filepath: src,
         new_path: dst
       )
@@ -64,7 +64,7 @@ class TestRenameFile < TLDR
       File.write(src, "A")
       File.write(dst, "B")
 
-      result = TDD::RenameFile.new(base_path: dir).execute(
+      result = Genie::RenameFile.new(base_path: dir).execute(
         filepath: src,
         new_path: dst
       )

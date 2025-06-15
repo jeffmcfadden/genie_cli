@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/tdd"
+
+if File.exist?(File.join(Dir.pwd, 'genie.yml'))
+  config = Genie::SessionConfig.from_file(File.join(Dir.pwd, 'genie.yml'), base_path: Dir.pwd)
+  Genie.output "Using config from #{File.join(Dir.pwd, 'genie.yml')}", color: :blue
+else
+  config = Genie::SessionConfig.default(base_path: Dir.pwd)
+  Genie.output "Using default config", color: :blue
+end
+
+session = Genie::Session.new(config: config)
+
+# Trap CTRL+C to exit
+Signal.trap("INT") do
+  session.complete
+end
+
+session.begin(ARGV[0])
