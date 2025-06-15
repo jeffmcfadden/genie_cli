@@ -10,6 +10,7 @@ require "tools/write_file"
 require "tools/run_tests"
 require "tools/take_a_note"
 require "tools/insert_into_file"
+require "tools/ask_for_help"
 
 RubyLLM.configure do |config|
   # Set keys for the providers you need. Using environment variables is best practice.

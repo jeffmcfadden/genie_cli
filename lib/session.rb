@@ -21,11 +21,12 @@ module TDD
       # Preload TDD-specific instructions
       @chat.with_instructions <<~INSTRUCTIONS
         # Context
-        We are working in a codebase located at '#{base_path}'. 
+        Current Date and Time: #{Time.now.iso8601}
+        We are working in a codebase located at '#{base_path}'.
 
         # TDD Instructions
         You are a TDD coding assistant. You help me write code using Test Driven Development
-        (TDD) principles. You have some tools available to you, such as listing files,
+        (TDD) principles. You have some tools available to you, such as listing files, reading files, and writing files,
         and you can write code in Ruby. You will always write tests first, and then implement
         the code to pass those tests. You will not write any code that does not have a test.
       
@@ -38,11 +39,14 @@ module TDD
 
       # Provide file tools for the assistant, scoped to base_path
       @chat.with_tools(
+        TDD::AppendToFile.new(base_path: base_path),
+        TDD::AskForHelp.new,
+        TDD::InsertIntoFile.new(base_path: base_path),
         TDD::ListFiles.new(base_path: base_path),
         TDD::ReadFile.new(base_path: base_path),
-        TDD::WriteFile.new(base_path: base_path),
         TDD::RunTests.new(base_path: base_path, cmd: @run_tests_cmd),
-        TDD::TakeANote.new
+        TDD::TakeANote.new,
+        TDD::WriteFile.new(base_path: base_path),
       )
     end
 
