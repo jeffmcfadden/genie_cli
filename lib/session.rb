@@ -12,7 +12,7 @@ module TDD
     # config: instance of TDD::SessionConfig
     # model: LLM model to use (default: "o4-mini")
     def initialize(config:, model: "o4-mini")
-      TDD.output "Starting a new session with:\n base_path: \\#{config.base_path}\n", color: :green
+      TDD.output "Starting a new session with:\n base_path: #{config.base_path}\n", color: :green
 
       @config = config
       @base_path = config.base_path

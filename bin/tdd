@@ -3,9 +3,11 @@
 require_relative "../lib/tdd"
 
 if File.exist?(File.join(Dir.pwd, 'tddcli.yml'))
-  config = TDD::SessionConfig.from_file(File.join(Dir.pwd, 'tddcli.yml'))
+  config = TDD::SessionConfig.from_file(File.join(Dir.pwd, 'tddcli.yml'), base_path: Dir.pwd)
+  TDD.output "Using config from #{File.join(Dir.pwd, 'tddcli.yml')}", color: :blue
 else
-  config = TDD::SessionConfig.new(base_path: Dir.pwd, run_tests_cmd: "rake test")
+  config = TDD::SessionConfig.default(base_path: Dir.pwd)
+  TDD.output "Using default config", color: :blue
 end
 
 session = TDD::Session.new(config: config)
