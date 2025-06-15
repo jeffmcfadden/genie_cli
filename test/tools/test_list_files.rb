@@ -4,7 +4,8 @@ class TestListFiles < TLDR
   def test_list_files
     actual = TDD::ListFiles.new(base_path: File.expand_path("../../", __dir__)).execute(directory: "./test/data/sample_files")
 
-    expected = [{ name: "one.txt", type: "file" },
+    expected = [{ name: "read_file_test.txt", type: "file" },
+                { name: "one.txt", type: "file" },
                 { name: "a_dir", type: "directory" }]
 
     assert_equal expected, actual
