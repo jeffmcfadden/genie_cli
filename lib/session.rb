@@ -1,19 +1,22 @@
+require 'ruby_llm'
+require 'session_config'
+
 module TDD
   class Session
-    # Read-only base path for all file operations
-    attr_reader :base_path
+    # Read-only base path and run_tests_cmd for all operations
+    attr_reader :base_path, :run_tests_cmd
 
     QUIT_COMMANDS = ["q", "quit", "done", "exit"]
 
-    def initialize(base_path:, model: "o4-mini", run_tests_cmd:)
+    # Initializes the session with a pre-loaded configuration
+    # config: instance of TDD::SessionConfig
+    # model: LLM model to use (default: "o4-mini")
+    def initialize(config:, model: "o4-mini")
+      TDD.output "Starting a new session with:\n base_path: \\#{config.base_path}\n", color: :green
 
-      TDD.output "Starting a new session with:\n base_path: #{base_path}\n", color: :green
-
-      # Ensure base_path is provided
-      # Ruby will raise ArgumentError for missing keyword argument if base_path is not given
-      @base_path = base_path
-
-      @run_tests_cmd = run_tests_cmd
+      @config = config
+      @base_path = config.base_path
+      @run_tests_cmd = config.run_tests_cmd
 
       # Initialize the LLM chat with the specified model
       @chat = RubyLLM.chat(model: model)
@@ -21,8 +24,8 @@ module TDD
       # Preload TDD-specific instructions
       @chat.with_instructions <<~INSTRUCTIONS
         # Context
-        Current Date and Time: #{Time.now.iso8601}
-        We are working in a codebase located at '#{base_path}'.
+        Current Date and Time: \\#{Time.now.iso8601}
+        We are working in a codebase located at '\\#{@base_path}'.
 
         # TDD Instructions
         You are a TDD coding assistant. You help me write code using Test Driven Development
@@ -39,14 +42,14 @@ module TDD
 
       # Provide file tools for the assistant, scoped to base_path
       @chat.with_tools(
-        TDD::AppendToFile.new(base_path: base_path),
+        TDD::AppendToFile.new(base_path: @base_path),
         TDD::AskForHelp.new,
-        TDD::InsertIntoFile.new(base_path: base_path),
-        TDD::ListFiles.new(base_path: base_path),
-        TDD::ReadFile.new(base_path: base_path),
-        TDD::RunTests.new(base_path: base_path, cmd: @run_tests_cmd),
+        TDD::InsertIntoFile.new(base_path: @base_path),
+        TDD::ListFiles.new(base_path: @base_path),
+        TDD::ReadFile.new(base_path: @base_path),
+        TDD::RunTests.new(base_path: @base_path, cmd: @run_tests_cmd),
         TDD::TakeANote.new,
-        TDD::WriteFile.new(base_path: base_path),
+        TDD::WriteFile.new(base_path: @base_path),
       )
     end
 
@@ -59,7 +62,7 @@ module TDD
         begin
           ask q unless q.strip == ""
         rescue RubyLLM::RateLimitError => e
-          TDD.output "Rate limit exceeded: #{e.message}", color: :red
+          TDD.output "Rate limit exceeded: \\#{e.message}", color: :red
         end
 
         q = prompt
@@ -68,11 +71,11 @@ module TDD
 
     # Send a question to the LLM and output both prompt and response
     def ask(question)
-      TDD.output "#{question}\n", color: :white
+      TDD.output "\\#{question}\n", color: :white
 
       response = @chat.ask(question)
 
-      TDD.output "\n#{response.content}", color: :white
+      TDD.output "\n\\#{response.content}", color: :white
 
       response
     end
@@ -86,7 +89,7 @@ module TDD
       TDD.output "\nExiting...", color: :white
 
       total_conversation_tokens = @chat.messages.sum { |msg| (msg.input_tokens || 0) + (msg.output_tokens || 0) }
-      TDD.output "Total Conversation Tokens: #{total_conversation_tokens}", color: :white
+      TDD.output "Total Conversation Tokens: \\#{total_conversation_tokens}", color: :white
 
       exit
     end
