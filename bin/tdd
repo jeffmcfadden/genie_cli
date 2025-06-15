@@ -3,7 +3,7 @@
 require_relative "../lib/tdd"
 
 session = TDD::Session.new(base_path: Dir.pwd,
-                           run_tests_cmd: "rake test")
+                           run_tests_cmd: "bundle exec rake test")
 
 # Trap CTRL+C to exit
 Signal.trap("INT") do

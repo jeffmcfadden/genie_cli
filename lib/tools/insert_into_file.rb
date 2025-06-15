@@ -13,6 +13,8 @@ module TDD
     end
 
     def execute(filepath:, content:, line_number:)
+      line_number = line_number.to_i
+
       # Expand the filepath to an absolute path
       filepath = File.expand_path(filepath)
 

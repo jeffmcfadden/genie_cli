@@ -4,6 +4,7 @@ require "dotenv/load"
 $LOAD_PATH.unshift (File.expand_path('../lib', __dir__))
 
 require "session"
+require "tools/append_to_file"
 require "tools/list_files"
 require "tools/read_file"
 require "tools/write_file"

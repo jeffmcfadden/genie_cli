@@ -55,7 +55,12 @@ module TDD
 
       loop do
         complete if QUIT_COMMANDS.include? q.downcase
-        ask q unless q.strip == ""
+
+        begin
+          ask q unless q.strip == ""
+        rescue RubyLLM::RateLimitError => e
+          TDD.output "Rate limit exceeded: #{e.message}", color: :red
+        end
 
         q = prompt
       end
@@ -64,7 +69,9 @@ module TDD
     # Send a question to the LLM and output both prompt and response
     def ask(question)
       TDD.output "#{question}\n", color: :white
+
       response = @chat.ask(question)
+
       TDD.output "\n#{response.content}", color: :white
 
       response
