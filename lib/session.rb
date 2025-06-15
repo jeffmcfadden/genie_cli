@@ -47,6 +47,8 @@ module TDD
         TDD::InsertIntoFile.new(base_path: @base_path),
         TDD::ListFiles.new(base_path: @base_path),
         TDD::ReadFile.new(base_path: @base_path),
+        TDD::RenameFile.new(base_path: @base_path),
+        TDD::ReplaceLinesInFile.new(base_path: @base_path),
         TDD::RunTests.new(base_path: @base_path, cmd: @run_tests_cmd),
         TDD::TakeANote.new,
         TDD::WriteFile.new(base_path: @base_path),
@@ -71,11 +73,11 @@ module TDD
 
     # Send a question to the LLM and output both prompt and response
     def ask(question)
-      TDD.output "\\#{question}\n", color: :white
+      TDD.output "#{question}\n", color: :white
 
       response = @chat.ask(question)
 
-      TDD.output "\n\\#{response.content}", color: :white
+      TDD.output "\n#{response.content}", color: :white
 
       response
     end
@@ -89,7 +91,7 @@ module TDD
       TDD.output "\nExiting...", color: :white
 
       total_conversation_tokens = @chat.messages.sum { |msg| (msg.input_tokens || 0) + (msg.output_tokens || 0) }
-      TDD.output "Total Conversation Tokens: \\#{total_conversation_tokens}", color: :white
+      TDD.output "Total Conversation Tokens: #{total_conversation_tokens}", color: :white
 
       exit
     end
