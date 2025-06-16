@@ -15,7 +15,7 @@ module Genie
     def initialize(config:)
       @config = config
 
-      Genie.output "Starting a new session with:\n base_path: #{base_path}\n", color: :green
+      Genie.output "Starting a new session with:\n base_path: #{base_path}\n model: #{model}\n", color: :green
 
       # Initialize the LLM chat with the specified model
       @chat = RubyLLM.chat(model: model)
