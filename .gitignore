@@ -3,3 +3,4 @@
 .env
 ruby_llm.log
 deploy
+*.gem

@@ -1,9 +1,9 @@
 # Genie CLI
 
-Genie CLI is a command-line tool that brings Test Driven Development (TDD) 
-principles to life by integrating with a large language model (LLM) through 
-the `ruby_llm` library. It provides an interactive session where you can ask 
-the AI assistant to write tests, implement code, and manage your codebase—all 
+Genie CLI is a command-line tool that brings Test Driven Development (TDD)
+principles to life by integrating with a large language model (LLM) through
+the `ruby_llm` library. It provides an interactive session where you can ask
+the AI assistant to write tests, implement code, and manage your codebase—all
 while enforcing a strict TDD workflow.
 
 ## Features
@@ -23,33 +23,33 @@ while enforcing a strict TDD workflow.
 
 ## Installation
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/jeffmcfadden/genie_cli.git
-   cd genie_cli
-   ```
+1.  Install the gem:
+    ```bash
+    gem install genie_cli
+    ```
 
-2. Install dependencies using Bundler:
-   ```bash
-   bundle install
-   ```
+2.  Set your OpenAI API key (or other LLM provider keys) in your environment:
+    ```bash
+    export OPENAI_API_KEY="your_api_key_here"
+    ```
+    
+    `dotenv` is also supported:
 
-3. Set your OpenAI API key (or other LLM provider keys) in your environment:
-   ```bash
-   export OPENAI_API_KEY="your_api_key_here"
-   ```
-
-4. Make the CLI executable:
-   ```bash
-   chmod +x bin/genie
-   ```
+    ```
+    # .env
+    OPENAI_API_KEY="your_api_key_here"
+    ```
 
 ## Usage
 
 Start a Genie session by running the `genie` command from the root of your project:
 
 ```bash
-./bin/genie ["initial prompt or command"]
+genie "initial prompt or command"
+```
+If you are using Bundler, you can run:
+```bash
+bundle exec genie "initial prompt or command"
 ```
 
 - If you provide an initial prompt, the assistant will immediately respond. Otherwise, you'll enter an interactive prompt where you can type your questions or commands.
@@ -58,7 +58,7 @@ Start a Genie session by running the `genie` command from the root of your proje
 Example session:
 
 ```bash
-$ ./bin/genie
+$ genie
 Starting a new session with:
  base_path: /Users/you/projects/genie_cli
 
@@ -81,14 +81,14 @@ Total Conversation Tokens: 1234
 
 ## Logging
 
-The output of `genie` to the terminal includes "essential" output, but not 
-_all_ output. To aid in debugging, the full RubyLLM debug log is saved to 
-`ruby_llm.log`. This can be useful for auditing what's happened during a 
+The output of `genie` to the terminal includes "essential" output, but not
+_all_ output. To aid in debugging, the full RubyLLM debug log is saved to
+`ruby_llm.log`. This can be useful for auditing what's happened during a
 session in great detail.
 
 ## Configuration
 
-Configuration is available via a `genie.yml` file in the project root.
+Configuration is available via a `genie.yml`.
 
 ## Testing
 
