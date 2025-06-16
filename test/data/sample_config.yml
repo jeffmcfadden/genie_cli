@@ -2,3 +2,4 @@
 base_path: "/tmp/myapp/from_config"
 run_tests_cmd: "bundle exec tests_from_config_ex"
 model: "test_model_from_config"
+instructions: "Instructions from config file"

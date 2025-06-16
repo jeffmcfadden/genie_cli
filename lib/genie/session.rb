@@ -8,46 +8,30 @@ module Genie
     QUIT_COMMANDS = ["q", "quit", "done", "exit", "bye"].freeze
 
     # Config holds these for us
-    def_delegators :@config, :model, :base_path, :run_tests_cmd
+    def_delegators :@config, :model, :base_path, :run_tests_cmd, :instructions
 
     # Initializes the session with a pre-loaded configuration
     # config: instance of Genie::SessionConfig
     def initialize(config:)
       @config = config
 
-      Genie.output "Starting a new session with:\n base_path: #{base_path}\n", color: :green
+      Genie.output "Starting a new session with:\n base_path: \\#{base_path}\n", color: :green
 
       # Initialize the LLM chat with the specified model
       @chat = RubyLLM.chat(model: model)
 
-      # Preload Genie-specific instructions
-      @chat.with_instructions <<~INSTRUCTIONS
-        # Context
-        Current Date and Time: #{Time.now.iso8601}
-        We are working in a codebase located at '#{base_path}'.
-
-        # Genie Instructions
-        You are a Genie coding assistant. You help me write code using Test Driven Development
-        (Genie) principles. You have some tools available to you, such as listing files, reading files, and writing files,
-        and you can write code in Ruby. You will always write tests first, and then implement
-        the code to pass those tests. You will not write any code that does not have a test.
-      
-        # Rules
-        1. We do not have access to any files outside of the base_path.
-        2. We do not have access to the internet.
-        3. You will always write tests first, and then implement the code to pass those tests.
-      
-      INSTRUCTIONS
+      # Use Genie-specific instructions from config
+      @chat.with_instructions instructions
 
       # Provide file tools for the assistant, scoped to base_path
       @chat.with_tools(
         Genie::AppendToFile.new(base_path: base_path),
         Genie::AskForHelp.new,
-        Genie::InsertIntoFile.new(base_path: base_path),
+        # Genie::InsertIntoFile.new(base_path: base_path),
         Genie::ListFiles.new(base_path: base_path),
         Genie::ReadFile.new(base_path: base_path),
         Genie::RenameFile.new(base_path: base_path),
-        Genie::ReplaceLinesInFile.new(base_path: base_path),
+        # Genie::ReplaceLinesInFile.new(base_path: base_path),
         Genie::RunTests.new(base_path: base_path, cmd: run_tests_cmd),
         Genie::TakeANote.new,
         Genie::WriteFile.new(base_path: base_path),
@@ -72,11 +56,11 @@ module Genie
 
     # Send a question to the LLM and output both prompt and response
     def ask(question)
-      Genie.output "#{question}\n", color: :white
+      Genie.output "\\#{question}\n", color: :white
 
       response = @chat.ask(question)
 
-      Genie.output "\n#{response.content}", color: :white
+      Genie.output "\n\\#{response.content}", color: :white
 
       response
     end
@@ -90,7 +74,7 @@ module Genie
       Genie.output "\nExiting...", color: :white
 
       total_conversation_tokens = @chat.messages.sum { |msg| (msg.input_tokens || 0) + (msg.output_tokens || 0) }
-      Genie.output "Total Conversation Tokens: #{total_conversation_tokens}", color: :white
+      Genie.output "Total Conversation Tokens: \\#{total_conversation_tokens}", color: :white
 
       exit
     end
