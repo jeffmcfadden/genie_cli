@@ -1,2 +1,2 @@
 ---
-run_tests_cmd: "bundle exec tldr"
+run_tests_cmd: "bundle exec tldr --no-warnings"

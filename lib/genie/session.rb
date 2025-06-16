@@ -15,7 +15,7 @@ module Genie
     def initialize(config:)
       @config = config
 
-      Genie.output "Starting a new session with:\n base_path: \\#{base_path}\n", color: :green
+      Genie.output "Starting a new session with:\n base_path: #{base_path}\n", color: :green
 
       # Initialize the LLM chat with the specified model
       @chat = RubyLLM.chat(model: model)
@@ -56,11 +56,11 @@ module Genie
 
     # Send a question to the LLM and output both prompt and response
     def ask(question)
-      Genie.output "\\#{question}\n", color: :white
+      Genie.output "#{question}\n", color: :white
 
       response = @chat.ask(question)
 
-      Genie.output "\n\\#{response.content}", color: :white
+      Genie.output "\n#{response.content}", color: :white
 
       response
     end
@@ -74,7 +74,7 @@ module Genie
       Genie.output "\nExiting...", color: :white
 
       total_conversation_tokens = @chat.messages.sum { |msg| (msg.input_tokens || 0) + (msg.output_tokens || 0) }
-      Genie.output "Total Conversation Tokens: \\#{total_conversation_tokens}", color: :white
+      Genie.output "Total Conversation Tokens: #{total_conversation_tokens}", color: :white
 
       exit
     end

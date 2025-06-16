@@ -5,3 +5,5 @@ gem "dotenv"
 
 gem "debug"
 gem "tldr"
+
+gem "tty-command"

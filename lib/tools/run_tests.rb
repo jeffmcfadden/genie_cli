@@ -17,14 +17,15 @@ module Genie
       # Run CMD within the base path
       Dir.chdir(@base_path) do
         begin
-          output = `#{@cmd}`
+          cmd = TTY::Command.new(printer: :quiet)
+          result = cmd.run!(@cmd)
 
-          if $?.success?
-            Genie.output "Tests passed successfully!", color: :green
-            { result: "Tests passed", output: output }
-          else
+          if result.failure?
             Genie.output "Tests failed!", color: :red
-            { result: "Tests failed", output: output }
+            { result: "Tests failed", output: result.out, errors: result.err }
+          else
+            Genie.output "Tests passed successfully!", color: :green
+            { result: "Tests passed", output: result.out }
           end
         rescue => e
           Genie.output "Error running tests: #{e.message}", color: :red
