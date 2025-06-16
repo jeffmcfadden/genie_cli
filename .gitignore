@@ -1,4 +1,5 @@
 .DS_Store
 .idea
 .env
-ruby_llm.logdeploy
+ruby_llm.log
+deploy
