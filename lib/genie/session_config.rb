@@ -22,7 +22,7 @@ module Genie
     DEFAULTS = {
       base_path: ".",
       run_tests_cmd: 'rake test',
-      model: 'gpt-4o',
+      model: 'gpt-4o-mini',
       first_question: nil,
       instructions: DEFAULT_INSTRUCTIONS
     }
