@@ -21,6 +21,14 @@ Gem::Specification.new do |spec|
   spec.executables   = Dir.children("bin").map { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "ruby_llm"
+  spec.add_dependency "dotenv"
+
+  spec.add_dependency "debug"
+  spec.add_dependency "tldr"
+
+  spec.add_dependency "tty-command"
+
   spec.add_development_dependency "tldr", ">= 1.0"
   spec.add_development_dependency "ruby_llm"
 end

@@ -1,3 +1,13 @@
+PATH
+  remote: .
+  specs:
+    genie_cli (0.1.0)
+      debug
+      dotenv
+      ruby_llm
+      tldr
+      tty-command
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -78,11 +88,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  debug
-  dotenv
+  genie_cli!
   ruby_llm
-  tldr
-  tty-command
+  tldr (>= 1.0)
 
 BUNDLED WITH
    2.6.2
