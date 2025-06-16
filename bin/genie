@@ -2,5 +2,7 @@
 
 require_relative "../lib/genie"
 
+config = Genie::SessionConfig.from_argv(ARGV)
+
 # Start the CLI with provided arguments
-Genie::Cli.new(ARGV).run
+Genie::Cli.new(config: config).run

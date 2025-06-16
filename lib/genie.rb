@@ -5,8 +5,8 @@ $LOAD_PATH.unshift (File.expand_path('../lib', __dir__))
 
 require "genie/sandboxed_file_tool"
 require "genie/version"
-require "session_config"
-require "session"
+require "genie/session_config"
+require "genie/session"
 require "tools/append_to_file"
 require "tools/list_files"
 require "tools/read_file"

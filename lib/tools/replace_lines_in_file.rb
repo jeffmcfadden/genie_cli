@@ -30,7 +30,7 @@ module Genie
       total = lines.size
 
       # Validate indices
-      if !start_line.is_a?(Integer) || !end_line.is_a?(Integer) || start_line < 0 || end_line < start_line || end_line >= total
+      if !start_line.is_a?(Integer) || !end_line.is_a?(Integer) || start_line < 0 || end_line < start_line || end_line > total
         raise "Invalid line numbers: start=#{start_line}, end=#{end_line}, file has #{total} lines."
       end
 

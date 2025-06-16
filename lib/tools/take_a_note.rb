@@ -4,7 +4,7 @@ module Genie
     param :note, desc: "The text of the note you want stored."
 
     def execute(note:)
-      Genie.output "Note: #{filepath}", color: :green
+      Genie.output "Note: #{note}", color: :green
 
       {
         note: note,

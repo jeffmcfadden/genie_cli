@@ -1,22 +1,21 @@
-require 'ruby_llm'
-require 'session_config'
-
 module Genie
   class Session
-    # Read-only base path and run_tests_cmd for all operations
-    attr_reader :base_path, :run_tests_cmd
+    extend Forwardable
 
-    QUIT_COMMANDS = ["q", "quit", "done", "exit"]
+    attr_reader :config
+
+    # Supported commands to exit the session
+    QUIT_COMMANDS = ["q", "quit", "done", "exit", "bye"].freeze
+
+    # Config holds these for us
+    def_delegators :@config, :model, :base_path, :run_tests_cmd
 
     # Initializes the session with a pre-loaded configuration
     # config: instance of Genie::SessionConfig
-    # model: LLM model to use (default: "o4-mini")
-    def initialize(config:, model: "gemini-2.5-flash-preview-05-20")
-      Genie.output "Starting a new session with:\n base_path: #{config.base_path}\n", color: :green
-
+    def initialize(config:)
       @config = config
-      @base_path = config.base_path
-      @run_tests_cmd = config.run_tests_cmd
+
+      Genie.output "Starting a new session with:\n base_path: #{base_path}\n", color: :green
 
       # Initialize the LLM chat with the specified model
       @chat = RubyLLM.chat(model: model)
@@ -24,8 +23,8 @@ module Genie
       # Preload Genie-specific instructions
       @chat.with_instructions <<~INSTRUCTIONS
         # Context
-        Current Date and Time: \\#{Time.now.iso8601}
-        We are working in a codebase located at '\\#{@base_path}'.
+        Current Date and Time: #{Time.now.iso8601}
+        We are working in a codebase located at '#{base_path}'.
 
         # Genie Instructions
         You are a Genie coding assistant. You help me write code using Test Driven Development
@@ -42,16 +41,16 @@ module Genie
 
       # Provide file tools for the assistant, scoped to base_path
       @chat.with_tools(
-        Genie::AppendToFile.new(base_path: @base_path),
+        Genie::AppendToFile.new(base_path: base_path),
         Genie::AskForHelp.new,
-        Genie::InsertIntoFile.new(base_path: @base_path),
-        Genie::ListFiles.new(base_path: @base_path),
-        Genie::ReadFile.new(base_path: @base_path),
-        Genie::RenameFile.new(base_path: @base_path),
-        Genie::ReplaceLinesInFile.new(base_path: @base_path),
-        Genie::RunTests.new(base_path: @base_path, cmd: @run_tests_cmd),
+        Genie::InsertIntoFile.new(base_path: base_path),
+        Genie::ListFiles.new(base_path: base_path),
+        Genie::ReadFile.new(base_path: base_path),
+        Genie::RenameFile.new(base_path: base_path),
+        Genie::ReplaceLinesInFile.new(base_path: base_path),
+        Genie::RunTests.new(base_path: base_path, cmd: run_tests_cmd),
         Genie::TakeANote.new,
-        Genie::WriteFile.new(base_path: @base_path),
+        Genie::WriteFile.new(base_path: base_path),
       )
     end
 
@@ -64,7 +63,7 @@ module Genie
         begin
           ask q unless q.strip == ""
         rescue RubyLLM::RateLimitError => e
-          Genie.output "Rate limit exceeded: \\#{e.message}", color: :red
+          Genie.output "Rate limit exceeded: #{e.message}", color: :red
         end
 
         q = prompt
